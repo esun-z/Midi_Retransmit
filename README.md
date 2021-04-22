@@ -14,7 +14,7 @@ Windows X86 (Win 32)
 
 ## Usage
 
-Download a release and run the excutable file.
+Download a release and run the executable file.
 
 - First run:
   
