@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="MidiRetransmitGUI">
+    <file>icon.png</file>
+  </qresource>
+</RCC>

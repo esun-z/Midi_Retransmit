@@ -53,8 +53,7 @@ int GetNum(int a, int b) {
 	}
 }
 
-DEVICE SelDevice() {
-	DEVICE dev;
+void PrintDeivce() {
 	int default_in = Pm_GetDefaultInputDeviceID();
 	int default_out = Pm_GetDefaultOutputDeviceID();
 	for (int i = 0; i < Pm_CountDevices(); i++) {
@@ -73,7 +72,31 @@ DEVICE SelDevice() {
 			printf("\n");
 		}
 	}
+}
 
+DEVICE SelDevice() {
+	DEVICE dev;
+	/*
+	int default_in = Pm_GetDefaultInputDeviceID();
+	int default_out = Pm_GetDefaultOutputDeviceID();
+	for (int i = 0; i < Pm_CountDevices(); i++) {
+		char *deflt;
+		const PmDeviceInfo *info = Pm_GetDeviceInfo(i);
+
+		printf("%d: %s, %s", i, info->interf, info->name);
+		if (info->input) {
+			deflt = (i == default_in ? "default " : "");
+			printf(" (%sinput)", deflt);
+			printf("\n");
+		}
+		if (info->output) {
+			deflt = (i == default_out ? "default " : "");
+			printf(" (%soutput)", deflt);
+			printf("\n");
+		}
+	}
+	*/
+	PrintDeivce();
 	int num_device = Pm_CountDevices();
 	printf("Type the number of INPUT device:");
 	dev.i = GetNum(0, num_device);
@@ -168,7 +191,16 @@ void RunTransmit(DEVICE dev) {
 }
 
 
-int main(){
+int main(int argc){
+
+	if (argc != 1) {
+		freopen("MRTdevice.txt", "w", stdout);
+		PrintDeivce();
+		freopen("CON", "w", stdout);
+		return 0;
+	}
+	
+
 
 	DEVICE device;
 	freopen("MRTconfig.ini", "r", stdin);
