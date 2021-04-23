@@ -169,7 +169,7 @@ void RunTransmit(DEVICE dev) {
 
 
 int main(){
-    
+
 	DEVICE device;
 	freopen("MRTconfig.ini", "r", stdin);
 	scanf("%ld", &i);

@@ -158,10 +158,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\portmidi\pm_common\portmidi-static.vcxproj">
+    <ProjectReference Include="portmidi\pm_common\portmidi-static.vcxproj">
       <Project>{2985d5da-d91e-44e0-924b-e612b6aa33f6}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\portmidi\ZERO_CHECK.vcxproj">
+    <ProjectReference Include="portmidi\ZERO_CHECK.vcxproj">
       <Project>{28779535-7541-4ff5-ac12-fafd66e894ec}</Project>
     </ProjectReference>
   </ItemGroup>

@@ -5,9 +5,9 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MidiRetransmit", "MidiRetransmit.vcxproj", "{D790E3ED-19C4-4C53-8DBD-DF469738B8D6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZERO_CHECK", "..\portmidi\ZERO_CHECK.vcxproj", "{28779535-7541-4FF5-AC12-FAFD66E894EC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "portmidi-static", "portmidi\pm_common\portmidi-static.vcxproj", "{2985D5DA-D91E-44E0-924B-E612B6AA33F6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "portmidi-static", "..\portmidi\pm_common\portmidi-static.vcxproj", "{2985D5DA-D91E-44E0-924B-E612B6AA33F6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZERO_CHECK", "portmidi\ZERO_CHECK.vcxproj", "{28779535-7541-4FF5-AC12-FAFD66E894EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,18 +25,18 @@ Global
 		{D790E3ED-19C4-4C53-8DBD-DF469738B8D6}.Release|x64.Build.0 = Release|x64
 		{D790E3ED-19C4-4C53-8DBD-DF469738B8D6}.Release|x86.ActiveCfg = Release|Win32
 		{D790E3ED-19C4-4C53-8DBD-DF469738B8D6}.Release|x86.Build.0 = Release|Win32
-		{28779535-7541-4FF5-AC12-FAFD66E894EC}.Debug|x64.ActiveCfg = Debug|Win32
-		{28779535-7541-4FF5-AC12-FAFD66E894EC}.Debug|x86.ActiveCfg = Debug|Win32
-		{28779535-7541-4FF5-AC12-FAFD66E894EC}.Debug|x86.Build.0 = Debug|Win32
-		{28779535-7541-4FF5-AC12-FAFD66E894EC}.Release|x64.ActiveCfg = Release|Win32
-		{28779535-7541-4FF5-AC12-FAFD66E894EC}.Release|x86.ActiveCfg = Release|Win32
-		{28779535-7541-4FF5-AC12-FAFD66E894EC}.Release|x86.Build.0 = Release|Win32
 		{2985D5DA-D91E-44E0-924B-E612B6AA33F6}.Debug|x64.ActiveCfg = Debug|Win32
 		{2985D5DA-D91E-44E0-924B-E612B6AA33F6}.Debug|x86.ActiveCfg = Debug|Win32
 		{2985D5DA-D91E-44E0-924B-E612B6AA33F6}.Debug|x86.Build.0 = Debug|Win32
 		{2985D5DA-D91E-44E0-924B-E612B6AA33F6}.Release|x64.ActiveCfg = Release|Win32
 		{2985D5DA-D91E-44E0-924B-E612B6AA33F6}.Release|x86.ActiveCfg = Release|Win32
 		{2985D5DA-D91E-44E0-924B-E612B6AA33F6}.Release|x86.Build.0 = Release|Win32
+		{28779535-7541-4FF5-AC12-FAFD66E894EC}.Debug|x64.ActiveCfg = Debug|Win32
+		{28779535-7541-4FF5-AC12-FAFD66E894EC}.Debug|x86.ActiveCfg = Debug|Win32
+		{28779535-7541-4FF5-AC12-FAFD66E894EC}.Debug|x86.Build.0 = Debug|Win32
+		{28779535-7541-4FF5-AC12-FAFD66E894EC}.Release|x64.ActiveCfg = Release|Win32
+		{28779535-7541-4FF5-AC12-FAFD66E894EC}.Release|x86.ActiveCfg = Release|Win32
+		{28779535-7541-4FF5-AC12-FAFD66E894EC}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
