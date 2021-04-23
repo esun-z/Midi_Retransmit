@@ -22,9 +22,6 @@ int main(int argc, char *argv[])
 	w.setWindowIcon(icon);
 	w.show();
 
-	//QObject::connect(w.BtnExit, SIGNAL(clicked()), &w, SLOT(on_BtnExit_clicked()));
-	//QObject::connect(w.BtnRun, SIGNAL(clicked()), &w, SLOT(on_BtnRun_clicked()));
-
 	QPixmap LIcon("icon.png");
 	w.ui.LabelIcon->setPixmap(LIcon);
 
@@ -35,7 +32,6 @@ int main(int argc, char *argv[])
 	char DeviceList[128];
 	char StrDevice[32];
 	ShellExecute(NULL, L"open", L"MidiRetransmit.exe", L"1", NULL, SW_SHOWMINIMIZED);
-	//system("MidiRetransmit.exe 1");
 	Sleep(1000);
 	
 

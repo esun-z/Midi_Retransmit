@@ -7,11 +7,7 @@
 DWORD WINAPI ThreadRun(PVOID pvParam) {
 	
 	system("MidiRetransmit.exe");
-	Sleep(1000);
-	keybd_event(VK_RETURN, 0, 0, 0);
-	Sleep(50);
-	keybd_event(VK_RETURN, 0, KEYEVENTF_KEYUP, 0);
-
+	
 	return 0;
 }
 
@@ -19,30 +15,7 @@ DWORD WINAPI ThreadRun(PVOID pvParam) {
 MidiRetransmitGUI::MidiRetransmitGUI(QWidget *parent)
     : QMainWindow(parent)
 {
-	/*
-	LabelLog = new QLabel("Launched", this);
-	LabelLog->resize(381, 20);
-	LabelLog->move(10, 520);
-	*/
-	/*
-	LabelIcon = new QLabel("", this);
-	LabelIcon->resize(24, 24);
-	LabelIcon->move(30, 20);
-	*/
-	/*
-	Edit1 = new QLineEdit(this);
-	Edit1->resize(261, 20);
-	Edit1->move(130, 360);
-	Edit2 = new QLineEdit(this);
-	Edit2->resize(261, 20);
-	Edit2->move(130, 390);
-	Edit3 = new QLineEdit(this);
-	Edit3->resize(171, 20);
-	Edit3->move(130, 420);
-	Edit4 = new QLineEdit(this);
-	Edit4->resize(171, 20);
-	Edit4->move(130, 450);
-	*/
+	
 	ui.setupUi(this);
 }
 
@@ -96,6 +69,11 @@ void MidiRetransmitGUI:: on_BtnRun_clicked() {
 	ui.LabelLog->show();
 	
 	CreateThread(NULL, 0, ThreadRun, NULL, 0, NULL);
+	Sleep(1000);
+
+	keybd_event(13, 0, 0, 0);
+	Sleep(100);
+	keybd_event(13, 0, KEYEVENTF_KEYUP, 0);
 
 	ui.LabelLog->setText("Done");
 	ui.LabelLog->show();
