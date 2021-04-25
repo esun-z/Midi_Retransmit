@@ -14,13 +14,15 @@ class MidiRetransmitGUI : public QMainWindow
 
 public:
     MidiRetransmitGUI(QWidget *parent = Q_NULLPTR);
-	QPushButton* BtnRun, *BtnExit;
-	QLabel* LabelLog, *LabelIcon;
+	QPushButton* BtnRun, *BtnExit, *BtnLink, *BtnRefresh;
+	QLabel* LabelLog, *LabelIcon, *LabelDeviceList;
 	QLineEdit* Edit1, *Edit2, *Edit3, *Edit4;
 
 public slots :
 	void on_BtnExit_clicked();
 	void on_BtnRun_clicked();
+	void on_BtnLink_clicked();
+	void on_BtnRefresh_clicked();
 	
 
 public:

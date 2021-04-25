@@ -3,6 +3,11 @@
 #include <QtWidgets/qapplication.h>
 #include <Windows.h>
 #include <thread>
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <fstream>
+#include <sstream>
 
 DWORD WINAPI ThreadRun(PVOID pvParam) {
 	
@@ -81,4 +86,31 @@ void MidiRetransmitGUI:: on_BtnRun_clicked() {
 
 	return;
 	
+}
+
+void MidiRetransmitGUI:: on_BtnLink_clicked() {
+	ShellExecute(NULL, L"open", L"https://github.com/esun-z/Midi_Retransmit", NULL, NULL, SW_SHOWNORMAL);
+	return;
+}
+
+void MidiRetransmitGUI:: on_BtnRefresh_clicked() {
+	ui.LabelDeviceList->setWordWrap(true);
+	ui.LabelLog->setText("Loading Devices...");
+	ui.LabelLog->show();
+	char DeviceList[128];
+	char StrDevice[32];
+	ShellExecute(NULL, L"open", L"MidiRetransmit.exe", L"1", NULL, SW_SHOWMINIMIZED);
+	Sleep(1000);
+
+
+	std::ifstream  in("MRTdevice.txt");
+	std::ostringstream  tmp;
+	tmp << in.rdbuf();
+	std::string  str = tmp.str();
+	ui.LabelDeviceList->setText(QString::fromStdString(str));
+	//LabelDeviceList.setParent(&w);
+	ui.LabelDeviceList->show();
+
+	ui.LabelLog->setText("Devices Refreshed.");
+	ui.LabelLog->show();
 }

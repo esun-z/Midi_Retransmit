@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>587</height>
+    <height>615</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -87,7 +87,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>540</y>
+      <y>570</y>
       <width>381</width>
       <height>23</height>
      </rect>
@@ -250,13 +250,39 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>510</y>
+      <y>540</y>
       <width>381</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BtnRefresh">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>520</y>
+      <width>381</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Refresh Devices</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LabelDeviceList">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>70</y>
+      <width>341</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Loading Devices</string>
     </property>
    </widget>
   </widget>
