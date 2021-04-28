@@ -99,8 +99,9 @@ void MidiRetransmitGUI:: on_BtnRefresh_clicked() {
 	ui.LabelLog->show();
 	char DeviceList[128];
 	char StrDevice[32];
-	ShellExecute(NULL, L"open", L"MidiRetransmit.exe", L"1", NULL, SW_SHOWMINIMIZED);
-	Sleep(1000);
+	system("MidiRetransmit.exe 1");
+	//ShellExecute(NULL, L"open", L"MidiRetransmit.exe", L"1", NULL, SW_SHOWMINIMIZED);
+	//Sleep(1000);
 
 
 	std::ifstream  in("MRTdevice.txt");
