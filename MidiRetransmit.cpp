@@ -25,6 +25,9 @@
 #define TIME_INFO NULL
 #define ASYNC_KEY_DOWN(VK_NONAME) ((GetAsyncKeyState(VK_NONAME) & 0x8000) ? 1:0)
 #define KEY_DOWN(VK_NONAME) ((GetKeyState(VK_NONAME) & 0x8000) ? 1:0)
+
+#define NUM_COPY_CHANNEL 8
+#define NUM_ORIGINAL_CHANNEL 1
 using namespace std;
 
 long i;
@@ -32,13 +35,15 @@ PmStream * midi;
 PmStream * midiout;
 PmError status; int length;
 PmEvent buffer[1];
+PmEvent bufferCopy[NUM_COPY_CHANNEL];
 
 struct DEVICE {
 	int i;
 	int o;
 	int trans;
 	int latency;
-	int check_time;
+	int ChannelCopy;
+	bool PedalCopyAll;
 };
 
 int GetNum(int a, int b) {
@@ -109,9 +114,15 @@ DEVICE SelDevice() {
 
 	printf("Type the transmission latency:");
 	dev.latency = GetNum(0, 500000);
+
+	printf("Type the ammount of channels that you want to copy your midi messages to.\nType 0 if you are not sure about what you are doing:");
+	dev.ChannelCopy = GetNum(0, 15);
+
+	printf("Type 1 if you want to copy the pedal message to all channels.\nElse type 0\nType 0 if you are not sure about what you are doing:");
+	dev.PedalCopyAll = GetNum(0, 1);
 	
 	freopen("MRTconfig.ini", "w", stdout);
-	cout << 1 << " " << dev.i << " " << dev.o << " " << dev.trans << " " << dev.latency;
+	cout << 1 << " " << dev.i << " " << dev.o << " " << dev.trans << " " << dev.latency << " " << dev.ChannelCopy << " " << dev.PedalCopyAll;
 	freopen("CON", "w", stdout);
 
 	return dev;
@@ -137,11 +148,34 @@ void OpenDevice(DEVICE dev) {
 	cout << "Device Opened." << endl;
 }
 
-void Transpose(DEVICE dev) {
+bool Transpose(DEVICE dev) {
+	i = 0;
+	memset(bufferCopy, NULL, NUM_COPY_CHANNEL);
 	if (Pm_MessageStatus(buffer[0].message) != 176) {
 		buffer[0].message = Pm_Message((long)Pm_MessageStatus(buffer[0].message), (long)Pm_MessageData1(buffer[0].message) + dev.trans, (long)Pm_MessageData2(buffer[0].message));
+		if (dev.ChannelCopy == 0) {
+			return false;
+		}
+		else {
+			for (i = NUM_ORIGINAL_CHANNEL - 1; i < dev.ChannelCopy; ++i) {
+				bufferCopy[i].message = Pm_Message((long)Pm_MessageStatus(buffer[0].message) + i + 1, (long)Pm_MessageData1(buffer[0].message), (long)Pm_MessageData2(buffer[0].message));
+			}
+			return true;
+		}
 	}
-	return;
+	else {
+		if (dev.PedalCopyAll == true) {
+
+			for (i = NUM_ORIGINAL_CHANNEL - 1; i < NUM_COPY_CHANNEL; ++i) {
+				bufferCopy[i].message = Pm_Message((long)(176 + 1 + i), (long)Pm_MessageData1(buffer[0].message), (long)Pm_MessageData2(buffer[0].message));
+			}
+			cout << "Pedal(sustain) was copied to all pedal(sustain) channels." << endl;
+
+		}
+		
+		return true;
+	}
+	
 }
 
 void RunTransmit(DEVICE dev) {
@@ -167,7 +201,9 @@ void RunTransmit(DEVICE dev) {
 		if (status == TRUE) {
 			length = Pm_Read(midi, buffer, 1);
 			if (length > 0) {
-				Transpose(dev);
+				if (Transpose(dev) == true) {
+					Pm_Write(midiout, bufferCopy, NUM_COPY_CHANNEL);
+				}
 				Pm_Write(midiout, buffer, 1);
 				printf("Got message : time %ld, channel %ld, note %ld, dynamics %ld\n",
 					(long)buffer[0].timestamp,
@@ -206,15 +242,22 @@ int main(int argc){
 	freopen("MRTconfig.ini", "r", stdin);
 	scanf("%ld", &i);
 	if (i == 1) {
-		scanf("%d%d%d%d", &device.i, &device.o, &device.trans, &device.latency);
+		scanf("%d%d%d%d%d%d", &device.i, &device.o, &device.trans, &device.latency, &device.ChannelCopy, &device.PedalCopyAll);
 		int num_device = Pm_CountDevices();
-		if (device.i <= num_device && device.i >= 0 && device.o <= num_device && device.o >= 0 && device.trans >= -127 && device.trans <= 127 && device.latency >= 0 && device.latency <= 500000) {
+		if (device.i <= num_device && device.i >= 0 && device.o <= num_device && device.o >= 0 && device.trans >= -127 && device.trans <= 127 && device.latency >= 0 && device.latency <= 500000 && device.ChannelCopy >= 0 && device.ChannelCopy <= NUM_COPY_CHANNEL && device.PedalCopyAll >= 0 && device.PedalCopyAll <= 1) {
 			cout << "Config file loaded." << endl;
 			const PmDeviceInfo *infoin = Pm_GetDeviceInfo(device.i);
 			printf("Input: %d: %s, %s \n", device.i, infoin->interf, infoin->name);
 			const PmDeviceInfo *infoout = Pm_GetDeviceInfo(device.o);
 			printf("Output: %d: %s, %s \n", device.o, infoout->interf, infoout->name);
-			cout << "Transpose = " << device.trans << "\nLatency = " << device.latency << "\nPress Enter to continue.\nPress any other key to reselect." << endl;
+			cout << "Transpose = " << device.trans << "\nLatency = " << device.latency << "\nAmount of copied channels = " << device.ChannelCopy << endl;
+			if (device.PedalCopyAll) {
+				cout << "Pedal messages will be copied to all channels." << endl;
+			}
+			else {
+				cout << "Pedal messages will not be copied." << endl;
+			}
+			cout << "Press Enter to continue.\nPress any other key to reselect." << endl;
 			int ch = _getch();
 			if (ch != 13) {
 				freopen("CON", "r", stdin);
