@@ -28,6 +28,8 @@
 
 #define NUM_COPY_CHANNEL 8
 #define NUM_ORIGINAL_CHANNEL 1
+
+#define TIME_PLUS 150
 using namespace std;
 
 long i;
@@ -79,6 +81,12 @@ void PrintDeivce() {
 	}
 }
 
+void PrintSetToFile(DEVICE dev) {
+	freopen("MRTconfig.ini", "w", stdout);
+	cout << "1 " << dev.i << " " << dev.o << " " << dev.trans << " " << dev.latency << " " << dev.ChannelCopy << " " << dev.PedalCopyAll << endl;
+	freopen("CON", "w", stdout);
+}
+
 DEVICE SelDevice() {
 	DEVICE dev;
 	/*
@@ -121,9 +129,7 @@ DEVICE SelDevice() {
 	printf("Type 1 if you want to copy the pedal message to all channels.\nElse type 0\nType 0 if you are not sure about what you are doing:");
 	dev.PedalCopyAll = GetNum(0, 1);
 	
-	freopen("MRTconfig.ini", "w", stdout);
-	cout << 1 << " " << dev.i << " " << dev.o << " " << dev.trans << " " << dev.latency << " " << dev.ChannelCopy << " " << dev.PedalCopyAll;
-	freopen("CON", "w", stdout);
+	PrintSetToFile(dev);
 
 	return dev;
 }
@@ -147,6 +153,8 @@ void OpenDevice(DEVICE dev) {
 	);
 	cout << "Device Opened." << endl;
 }
+
+/*
 
 bool Transpose(DEVICE dev) {
 	i = 0;
@@ -178,7 +186,43 @@ bool Transpose(DEVICE dev) {
 	
 }
 
+*/
+
+void Transpose(DEVICE dev) {
+
+	if (Pm_MessageStatus(buffer[0].message) != 176) {
+		buffer[0].message = Pm_Message((long)Pm_MessageStatus(buffer[0].message), (long)Pm_MessageData1(buffer[0].message) + dev.trans, (long)Pm_MessageData2(buffer[0].message));
+	}
+}
+
+bool CopyNote(DEVICE dev) {
+
+	bool flag = false;
+	i = 0;
+	memset(bufferCopy, NULL, NUM_COPY_CHANNEL);
+
+	if (dev.ChannelCopy != 0) {
+		for (i = NUM_ORIGINAL_CHANNEL - 1; i < dev.ChannelCopy; ++i) {
+			bufferCopy[i].message = Pm_Message((long)Pm_MessageStatus(buffer[0].message) + i + 1, (long)Pm_MessageData1(buffer[0].message), (long)Pm_MessageData2(buffer[0].message));
+		}
+		flag = true;
+	}
+
+	if (dev.PedalCopyAll && Pm_MessageStatus(buffer[0].message) == 176) {
+
+		for (i = dev.ChannelCopy; i < NUM_COPY_CHANNEL; ++i) {
+			bufferCopy[i].message = Pm_Message((long)(176 + 1 + i), (long)Pm_MessageData1(buffer[0].message), (long)Pm_MessageData2(buffer[0].message));
+		}
+		flag = true;
+	}
+
+	return flag;
+
+}
+
 void RunTransmit(DEVICE dev) {
+	
+	int TimerP = 0, TimerC = 0;
 	Pm_SetFilter(midi, PM_FILT_ACTIVE | PM_FILT_CLOCK);
 	i = 0;
 	cout << "Press ESC to exit." << endl;
@@ -195,16 +239,56 @@ void RunTransmit(DEVICE dev) {
 				cout << "Exiting..." << endl;
 				break;
 			}
-		}
+			if (KEY_DOWN(VK_CONTROL) && KEY_DOWN('P') && TimerP <= 0) {
+				dev.PedalCopyAll = 1 - dev.PedalCopyAll;
+				if (dev.PedalCopyAll) {
+					cout << "\nPedal(sustain) will be copied to all pedal(sustain) channels.\n" << endl;
+				}
+				else {
+					cout << "\nPedal(sustain) will not be copied.\n" << endl;
+				}
+				
+				TimerP = TIME_PLUS;
 
+			}
+			if (KEY_DOWN(VK_SHIFT) && KEY_DOWN(187)/*plus*/ && TimerC <= 0) {
+				if (dev.ChannelCopy >= NUM_COPY_CHANNEL - NUM_ORIGINAL_CHANNEL) {
+					cout << "Too many channels.\n" << endl;
+				}
+				else {
+					dev.ChannelCopy++;
+				}
+				cout << "Notes will be copied to " << dev.ChannelCopy << "channels" << endl;
+				
+				TimerC = TIME_PLUS;
+			}
+			if (KEY_DOWN(VK_SHIFT) && KEY_DOWN(189)/*minus*/ && TimerC <= 0) {
+				if (dev.ChannelCopy > 0) {
+					dev.ChannelCopy--;
+				}
+				cout << "Notes will be copied to " << dev.ChannelCopy << "channels" << endl;
+				
+				TimerC = TIME_PLUS;
+			}
+
+			PrintSetToFile(dev);
+		}
+		
+		if (TimerP > 0) {
+			TimerP--;
+		}
+		if (TimerC > 0) {
+			TimerC--;
+		}
 		status = Pm_Poll(midi);
 		if (status == TRUE) {
 			length = Pm_Read(midi, buffer, 1);
 			if (length > 0) {
-				if (Transpose(dev) == true) {
+				Transpose(dev);
+				Pm_Write(midiout, buffer, 1);
+				if (CopyNote(dev)) {
 					Pm_Write(midiout, bufferCopy, NUM_COPY_CHANNEL);
 				}
-				Pm_Write(midiout, buffer, 1);
 				printf("Got message : time %ld, channel %ld, note %ld, dynamics %ld\n",
 					(long)buffer[0].timestamp,
 					(long)Pm_MessageStatus(buffer[0].message),

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>615</height>
+    <height>614</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,9 +20,9 @@
    <widget class="QLineEdit" name="Edit1">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>110</x>
       <y>360</y>
-      <width>261</width>
+      <width>41</width>
       <height>20</height>
      </rect>
     </property>
@@ -30,9 +30,9 @@
    <widget class="QLineEdit" name="Edit2">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>390</y>
-      <width>261</width>
+      <x>340</x>
+      <y>360</y>
+      <width>41</width>
       <height>20</height>
      </rect>
     </property>
@@ -40,8 +40,8 @@
    <widget class="QLineEdit" name="Edit3">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>420</y>
+      <x>110</x>
+      <y>390</y>
       <width>171</width>
       <height>20</height>
      </rect>
@@ -50,8 +50,8 @@
    <widget class="QLineEdit" name="Edit4">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>450</y>
+      <x>110</x>
+      <y>420</y>
       <width>171</width>
       <height>20</height>
      </rect>
@@ -117,8 +117,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>390</y>
+      <x>220</x>
+      <y>360</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -136,7 +136,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>420</y>
+      <y>390</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -154,7 +154,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>450</y>
+      <y>420</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -171,8 +171,8 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>420</y>
+      <x>300</x>
+      <y>390</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -189,8 +189,8 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>450</y>
+      <x>330</x>
+      <y>420</y>
       <width>31</width>
       <height>21</height>
      </rect>
@@ -296,6 +296,55 @@
     </property>
     <property name="text">
      <string>Create Virtual Device</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>450</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Copy Channels</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="Edit5">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>450</y>
+      <width>41</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>450</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>∈[0,7]</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="CheckBoxPedalCopy">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>450</y>
+      <width>181</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Copy padel to all channels</string>
     </property>
    </widget>
   </widget>

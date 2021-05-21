@@ -8,6 +8,7 @@
 #include <cstring>
 #include <fstream>
 #include <sstream>
+#include <qcheckbox.h>
 
 DWORD WINAPI ThreadRun(PVOID pvParam) {
 	
@@ -36,18 +37,20 @@ void MidiRetransmitGUI:: on_BtnRun_clicked() {
 	
 	
 	
-	QString ed1, ed2, ed3, ed4;
-	std::string d1, d2, d3, d4;
+	QString ed1, ed2, ed3, ed4, ed5;
+	std::string d1, d2, d3, d4, d5;
 	
 	ed1 = ui.Edit1->text();
 	ed2 = ui.Edit2->text();
 	ed3 = ui.Edit3->text();
 	ed4 = ui.Edit4->text();
+	ed5 = ui.Edit5->text();
 
 	d1 = ed1.toStdString();
 	d2 = ed2.toStdString();
 	d3 = ed3.toStdString();
 	d4 = ed4.toStdString();
+	d5 = ed5.toStdString();
 
 	std::string str;
 
@@ -59,6 +62,17 @@ void MidiRetransmitGUI:: on_BtnRun_clicked() {
 	str += d3;
 	str += " ";
 	str += d4;
+	str += " ";
+	str += d5;
+
+	if (ui.CheckBoxPedalCopy->isChecked()) {
+		str += " 1";
+	}
+	else {
+		str += " 0";
+	}
+
+	
 	
 	ui.LabelLog->setText("Writing to config file.");
 	ui.LabelLog->show();

@@ -10,9 +10,9 @@ Retransmit midi messages from a device to another.
 
 - Add a latency during the retransmission
 
-- Copy notes and pedal messages to other channels (from 1 to 8)
+- Copy notes and pedal messages to other channels (from channel 2 to 8. Particularly, from channel 145 to 151 in portmidi)
 
-  This might be useful in building an electric organ (without pedal keyboard, since it's too expensive) with 2 midi keyboards. More information on [Dual Keyboards Combination Solution (Chinese)](https://www.bilibili.com/read/cv11086758).
+  This might be useful in building an electric organ (without pedal keyboard, as it's too expensive) with 2 midi keyboards. More information on [Dual Keyboards Combination Solution (Chinese)](https://www.bilibili.com/read/cv11086758).
 
 ## Platform
 
